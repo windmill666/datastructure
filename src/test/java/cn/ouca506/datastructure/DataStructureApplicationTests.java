@@ -1,9 +1,14 @@
 package cn.ouca506.datastructure;
 
-import cn.ouca506.datastructure.core.*;
 import cn.ouca506.datastructure.core.api.ZooLinkedList;
 import cn.ouca506.datastructure.core.api.ZooQueue;
 import cn.ouca506.datastructure.core.api.ZooStack;
+import cn.ouca506.datastructure.core.linkedlist.ZooSingleCircleLinkedList;
+import cn.ouca506.datastructure.core.linkedlist.ZooSingleLinkedList;
+import cn.ouca506.datastructure.core.queue.ZooArrayQueue;
+import cn.ouca506.datastructure.core.stack.ZooStringArrayStack;
+import cn.ouca506.datastructure.core.tree.*;
+import cn.ouca506.datastructure.search.MySearch;
 import cn.ouca506.datastructure.smart.EightQueenProblem;
 import cn.ouca506.datastructure.smart.ReversePolishExpression;
 import cn.ouca506.datastructure.smart.SparseArray;
@@ -14,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -424,5 +430,155 @@ class DataStructureApplicationTests {
 //        sort.quick(quickArr, 0, quickArr.length - 1);
 //        System.out.println(Arrays.toString(quickArr));
 
+    }
+
+    @Test
+    void testSearch() {
+        MySearch search = new MySearch();
+        int[] arr = new int[]{8,4,67,23,5,7,32};
+        System.out.println(search.sequenceSearch(arr, 5));
+        System.out.println(search.binarySearch(arr, 5));//注意是有序数组
+        int[] arrList = new int[]{1,1,1,0,1,1};
+        System.out.println(search.binarySearchMultiple(arrList, 1));//注意是有序数组
+        int[] arrInsertList = new int[]{1,2,3,4,5,6,7};
+        System.out.println(search.insertSearchMultiple(arrInsertList, 1));
+        int[] fibonacci = new int[]{1,2,3,4,4,5,6,6,6,6};
+        System.out.println(search.fibonacciSearchMultiple(fibonacci, 6));
+        System.out.println(search.binarySearchStandard(fibonacci, 6));
+    }
+
+    @Test
+    void testHeapSort() {
+        MySort sort = new MySort();
+        int[] arr = new int[]{91, 60, 96, 13, 35, 65, 46, 65, 10, 30, 20, 31, 77, 81,22};
+        sort.heap(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+
+    @Test
+    void testBinaryTree() {
+        //普通二叉树
+        ZooBinaryTree<String> tree = new ZooBinaryTree<>(1, "1");
+        tree.getRoot().setLeftNode(2, "2");
+        tree.getRoot().setRightNode(3, "3");
+        tree.getRoot().getLeftNode().setLeftNode(5, "5");
+        tree.getRoot().getLeftNode().setRightNode(6, "6");
+        tree.getRoot().getRightNode().setRightNode(4, "4");
+        tree.prePrint();
+        tree.infixPrint();
+        tree.postPrint();
+        System.out.println("tree.preSearch(\"6\") = " + tree.preSearch("6"));
+        System.out.println("tree.infixSearch(\"6\") = " + tree.infixSearch("6"));
+        System.out.println("tree.postSearch(\"6\") = " + tree.postSearch("6"));
+
+        //顺序存储二叉树
+        ZooBinaryTree<String> treeOrder = new ZooBinaryTree<>(new String[]{"1","2","3","4","5","6","7"});
+        treeOrder.prePrintOrder(0);
+        System.out.println();
+        treeOrder.infixPrintOrder(0);
+        System.out.println();
+        treeOrder.postPrintOrder(0);
+    }
+
+    @Test
+    void testBinaryHuffmanTree() {
+        ZooBinaryHuffmanTree tree = new ZooBinaryHuffmanTree(new int[]{13,7,8,3,29,6,1});
+        tree.prePrint();
+
+        ZooBinaryHuffmanTree huffmanTree = new ZooBinaryHuffmanTree("i like like like java do you like a java");
+        System.out.println("密码本");
+        System.out.println(huffmanTree.getHuffmanCodeMap());
+        System.out.println("压缩后");
+        byte[] zip = huffmanTree.zip();
+        System.out.println(Arrays.toString(zip));
+        String unzip = huffmanTree.unzip();
+        System.out.println("明文");
+        System.out.println(unzip);
+
+        ZooBinaryHuffmanTree zooBinaryHuffmanTree = new ZooBinaryHuffmanTree();
+        try {
+            zooBinaryHuffmanTree.zip("D:\\test.bmp", "D:\\test.zip");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            zooBinaryHuffmanTree.unzip("D:\\test.zip", "D:\\unzip.bmp");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    void testBinaryThreadTree() {
+        ZooBinaryThreadTree<String> tree = new ZooBinaryThreadTree<>(1, "1");
+        tree.getRoot().setLeftNode(2, "2");
+        tree.getRoot().setRightNode(3, "3");
+        tree.getRoot().getLeftNode().setLeftNode(5, "5");
+//        tree.getRoot().getLeftNode().getLeftNode().setLeftNode(8,"8");
+//        tree.getRoot().getLeftNode().getLeftNode().setRightNode(9,"9");
+        tree.getRoot().getLeftNode().setRightNode(6, "6");
+        tree.getRoot().getRightNode().setRightNode(4, "4");
+        tree.getRoot().getRightNode().setLeftNode(7, "7");
+        tree.prePrint();
+        tree.infixPrint();
+        tree.postPrint();
+
+//        tree.getRoot().setParentNode(null);
+//        tree.getRoot().getLeftNode().setParentNode(tree.getRoot());
+//        tree.getRoot().getLeftNode().getRightNode().setParentNode(tree.getRoot().getLeftNode());
+//        tree.getRoot().getLeftNode().getLeftNode().setParentNode(tree.getRoot().getLeftNode());
+//        tree.getRoot().getRightNode().setParentNode(tree.getRoot());
+//        tree.getRoot().getRightNode().getRightNode().setParentNode(tree.getRoot().getRightNode());
+//        tree.getRoot().getRightNode().getLeftNode().setParentNode(tree.getRoot().getRightNode());
+
+        tree.preThread(tree.getRoot());
+        System.out.println("1 2 5 6 3 4：prePrint不能再使用");
+//        tree.infixThread(tree.getRoot());
+//        System.out.println("5 2 6 1 3 4：infixPrint不能再使用");
+//        tree.postThread(tree.getRoot());
+//        System.out.println("5 6 2 4 3 1：postPrint不能再使用");
+
+        System.out.println("节点5");
+        System.out.print(tree.getRoot().getLeftNode().getLeftNode().getLeftNodeType()+"\t");
+        System.out.println(tree.getRoot().getLeftNode().getLeftNode().getLeftNode());
+        System.out.print(tree.getRoot().getLeftNode().getLeftNode().getRightNodeType()+"\t");
+        System.out.println(tree.getRoot().getLeftNode().getLeftNode().getRightNode());
+
+        System.out.println("节点6");
+        System.out.print(tree.getRoot().getLeftNode().getRightNode().getLeftNodeType()+"\t");
+        System.out.println(tree.getRoot().getLeftNode().getRightNode().getLeftNode());
+        System.out.print(tree.getRoot().getLeftNode().getRightNode().getRightNodeType()+"\t");
+        System.out.println(tree.getRoot().getLeftNode().getRightNode().getRightNode());
+
+        tree.prePrintThread();
+//        tree.infixPrintThread();
+//        tree.postPrintThread();
+    }
+
+    @Test
+    void testBinarySortThreadTree() {
+//        int[] arr = new int[]{7,3,10,15,5,1,9,2,13,11,12};
+        int[] arr = new int[]{7,3,10,12,5,1,9};
+
+        ZooBinarySortTree tree = new ZooBinarySortTree(arr);
+        tree.infixPrint();
+        tree.delete(10);
+        tree.infixPrint();
+    }
+
+    @Test
+    void testBinaryBalanceTree() {
+//        int[] arr = new int[]{4,3,6,5,7,8};
+//        int[] arr = new int[]{10,12,8,9,7,6};
+//        int[] arr = new int[]{4,3,6,5,8,9};
+//        int[] arr = new int[]{8,4,2,5,9,1};
+
+        int[] arr = new int[]{10,11,7,6,8,9};
+        ZooBinaryBalanceTree tree = new ZooBinaryBalanceTree(arr);
+        System.out.println(tree.getRoot().height());
+        System.out.println(tree.getRoot().leftHeight());
+        System.out.println(tree.getRoot().rightHeight());
+        System.out.println(tree.getRoot());
     }
 }

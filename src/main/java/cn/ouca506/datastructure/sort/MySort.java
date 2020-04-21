@@ -59,6 +59,8 @@ public class MySort {
      * 以最后一个数或者第一个数为基准，进行排序
      * 如果需要随机一个数做基准，只需将随机到的数与最后一个数或者第一个数做交换
      * @param arr 一维数组
+     * @param left 第一次递归时：left = 0
+     * @param right 第一次递归时：right = arr.length - 1
      */
     public void quick(int[] arr, int left, int right) {
         if (left >= right) {
@@ -316,4 +318,88 @@ public class MySort {
             }
         }
     }
+
+    /**
+     * 堆排序
+     * 从小到大——大顶堆
+     * 从大到小——小顶堆
+     * @param arr 一维数组
+     */
+    public void heap(int[] arr) {
+        //从小到大排序，初始建堆
+        for (int i = arr.length / 2 - 1; i >= 0; i--) {
+            adjustHeapOrder(arr, i, arr.length);
+        }
+        //堆顶下沉与最后一个节点交换
+        //同时做相应调整
+        for (int i = arr.length - 1; i > 0; i--) {
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+            adjustHeapOrder(arr, 0, i);
+        }
+//        //从大到小排序，初始建堆
+//        for (int i = arr.length / 2 - 1; i >= 0; i--) {
+//            adjustHeapDesc(arr, i, arr.length);
+//        }
+//        //堆顶下沉与最后一个节点交换
+//        //同时做相应调整
+//        for (int i = arr.length - 1; i > 0; i--) {
+//            int temp = arr[0];
+//            arr[0] = arr[i];
+//            arr[i] = temp;
+//            adjustHeapDesc(arr, 0, i);
+//        }
+    }
+
+    /**
+     * 生成(调整成)大顶堆
+     * @param arr 一维数组
+     * @param index 表示非叶子节点再数组中的索引
+     * @param length 还有多少节点需要调整，逐渐减少
+     */
+    private void adjustHeapOrder(int[] arr, int index, int length) {
+        int temp = arr[index];
+        //循环的作用是让下面的不断往上冒
+        for (int i = index * 2 + 1; i < length; i = i * 2 + 1) {
+            //i此时是index节点下的左子节点，i+1是右子节点
+            if (i + 1 < length && arr[i] < arr[i + 1]) {
+                i++;
+            }
+            if (arr[i] > temp) {
+                arr[index] = arr[i];
+                index = i;//index的作用是接替下一轮的扫描，作为父节点
+            } else {
+                break;
+            }
+        }
+        //将局部顶端元素放到下面
+        arr[index] = temp;
+    }
+
+    /**
+     * 生成(调整成)小顶堆
+     * @param arr 一维数组
+     * @param index 表示非叶子节点再数组中的索引
+     * @param length 还有多少节点需要调整，逐渐减少
+     */
+    private void adjustHeapDesc(int[] arr, int index, int length) {
+        int temp = arr[index];
+        //循环的作用是让下面的不断往上冒，初始建堆的时候需要从下至上，从右至左调整才可以
+        for (int i = index * 2 + 1; i < length; i = i * 2 + 1) {
+            //i此时是index节点下的左子节点，i+1是右子节点
+            if (i + 1 < length && arr[i] > arr[i + 1]) {
+                i++;
+            }
+            if (arr[i] < temp) {
+                arr[index] = arr[i];
+                index = i;//index的作用是接替下一轮的扫描，作为父节点
+            } else {
+                break;
+            }
+        }
+        //将局部顶端元素放到下面
+        arr[index] = temp;
+    }
+
 }

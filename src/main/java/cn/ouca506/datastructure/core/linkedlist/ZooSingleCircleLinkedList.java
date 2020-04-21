@@ -1,25 +1,22 @@
-package cn.ouca506.datastructure.core;
+package cn.ouca506.datastructure.core.linkedlist;
 
 import cn.ouca506.datastructure.core.api.ZooCircleLinkedList;
 
 import java.util.Objects;
 
 /**
- * 双向环形链表
+ * 单向环形链表
  * @author windmill666
- * @date 2020/4/3 20:19
+ * @date 2020/4/1 22:41
  */
 
-public class ZooRoundCircleLinkedList<T> implements ZooCircleLinkedList<T> {
+public class ZooSingleCircleLinkedList<T> implements ZooCircleLinkedList<T> {
 
     public class Node {
         private T value;
-        private Node pre;
         private Node next;
-
-        public Node(T value, Node pre, Node next) {
+        public Node(T value, Node next) {
             this.value = value;
-            this.pre = pre;
             this.next = next;
         }
 
@@ -33,15 +30,10 @@ public class ZooRoundCircleLinkedList<T> implements ZooCircleLinkedList<T> {
     }
 
     private Node head;
-    private Node tail;
     private int size;
 
     public Node getHead() {
         return head;
-    }
-
-    public Node getTail() {
-        return tail;
     }
 
     @Override
@@ -52,10 +44,8 @@ public class ZooRoundCircleLinkedList<T> implements ZooCircleLinkedList<T> {
     @Override
     public void add(T value) {
         if (size == 0) {
-            this.head = new Node(value, null, null);
+            this.head = new Node(value, null);
             this.head.next = head;
-            this.head.pre = head;
-            this.tail = head;
             size++;
             return;
         }
@@ -63,9 +53,7 @@ public class ZooRoundCircleLinkedList<T> implements ZooCircleLinkedList<T> {
         while (cur.next != head) {
             cur = cur.next;
         }
-        this.tail = new Node(value, cur, head);
-        cur.next = tail;
-        head.pre = tail;
+        cur.next = new Node(value, head);
         size++;
     }
 
@@ -78,29 +66,29 @@ public class ZooRoundCircleLinkedList<T> implements ZooCircleLinkedList<T> {
         if (Objects.deepEquals(head.value, value)) {
             if (size == 1) {
                 this.head = null;
-                this.tail = null;
                 size--;
                 return;
             }
-            this.tail.next = head.next;
+            Node cur = this.head;
+            while (cur.next != head) {
+                cur = cur.next;
+            }
+            cur.next = head.next;
             this.head = head.next;
-            this.head.pre = tail;
             size--;
             return;
         }
-        Node dummy = new Node(null, null, head);
+        Node dummy = new Node(null, head);
         Node cur = this.head;
         while (dummy.value == null || dummy.next != head) {
             if (Objects.deepEquals(cur.value, value)) {
                 dummy.next = cur.next;
-                cur.next.pre = dummy;
                 size--;
                 break;
             }
             dummy = dummy.next;
             cur = cur.next;
         }
-        this.tail = head.pre;
     }
 
     @Override
@@ -118,17 +106,4 @@ public class ZooRoundCircleLinkedList<T> implements ZooCircleLinkedList<T> {
         System.out.println();
     }
 
-    public void showCircleLinkedListRe() {
-        if (size == 0) {
-            System.out.println("空");
-            return;
-        }
-        Node cur = this.tail;
-        System.out.print(cur.value + "\t");
-        while (cur.pre != tail) {
-            cur = cur.pre;
-            System.out.print(cur.value + "\t");
-        }
-        System.out.println();
-    }
 }

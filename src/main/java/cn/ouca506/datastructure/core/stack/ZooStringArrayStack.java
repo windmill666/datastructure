@@ -1,40 +1,41 @@
-package cn.ouca506.datastructure.core;
+package cn.ouca506.datastructure.core.stack;
 
 import cn.ouca506.datastructure.core.api.ZooStack;
 
 /**
  * @author windmill666
- * @date 2020/4/6 8:20
+ * @date 2020/4/2 11:32
  */
 
-public class ZooStringLinkedStack implements ZooStack {
+public class ZooStringArrayStack implements ZooStack {
 
-    private ZooSingleLinkedList<String> stack;
+    private String[] stack;
     private int size;
     private int stackTop;
 
-    public ZooStringLinkedStack(int size) {
+    public ZooStringArrayStack(int size) {
         this.size = size;
+        this.stack = new String[size];
         this.stackTop = -1;
-        this.stack = new ZooSingleLinkedList<>();
     }
 
     @Override
     public void push(String t) {
         if (isFull()) {
+            System.out.println("栈已满");
             return;
         }
-        stack.add(t);
         stackTop++;
+        stack[stackTop] = t;
     }
 
     @Override
     public String pop() {
         if (isEmpty()) {
+            System.out.println("栈已空");
             return null;
         }
-        String res = stack.get(stackTop);
-        stack.removeLast();
+        String res = stack[stackTop];
         stackTop--;
         return res;
     }
@@ -45,7 +46,7 @@ public class ZooStringLinkedStack implements ZooStack {
             System.out.println("栈已空");
             return null;
         }
-        return stack.get(stackTop);
+        return stack[stackTop];
     }
 
     @Override
@@ -56,5 +57,18 @@ public class ZooStringLinkedStack implements ZooStack {
     @Override
     public boolean isFull() {
         return stackTop == size - 1;
+    }
+
+    public static int symbolPropPriority(String str) {
+        if (str.equals("*") || str.equals("/")) {
+            return 1;
+        } else if (str.equals("+") || str.equals("-")) {
+            return 0;
+        }
+        return -1;
+    }
+
+    public boolean isOneElement() {
+        return stackTop == 0;
     }
 }

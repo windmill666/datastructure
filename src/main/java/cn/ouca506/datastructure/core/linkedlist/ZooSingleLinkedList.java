@@ -1,4 +1,4 @@
-package cn.ouca506.datastructure.core;
+package cn.ouca506.datastructure.core.linkedlist;
 
 import cn.ouca506.datastructure.core.api.ZooLinkedList;
 

@@ -1,5 +1,6 @@
-package cn.ouca506.datastructure.core;
+package cn.ouca506.datastructure.core.queue;
 
+import cn.ouca506.datastructure.core.linkedlist.ZooRoundLinkedList;
 import cn.ouca506.datastructure.core.api.ZooQueue;
 
 /**
