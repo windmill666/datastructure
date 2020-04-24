@@ -78,6 +78,16 @@ public class ZooBinaryBalanceTree {
         }
     }
 
+    public Integer binarySearch(int value) {
+        if (this.root != null) {
+            Node node = this.root.binarySearch(root, value);
+            return node == null ? null : node.value;
+        } else {
+            System.out.println("空二叉树");
+        }
+        return null;
+    }
+
 
     public static class Node {
         private int value;
@@ -281,6 +291,20 @@ public class ZooBinaryBalanceTree {
             leftNode = leftNode.leftNode;
             //把过去节点的右子树设置成新节点
             rightNode = newNode;
+        }
+
+        private Node binarySearch(Node node, int value) {
+            while (node != null) {
+                System.out.println("二分查找" + node.value);
+                if (value == node.value) {
+                    return node;
+                } else if (value < node.value) {
+                    node = node.leftNode;
+                } else {
+                    node = node.rightNode;
+                }
+            }
+            return null;
         }
     }
 }

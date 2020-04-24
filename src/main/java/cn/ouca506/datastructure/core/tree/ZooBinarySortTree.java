@@ -72,6 +72,14 @@ public class ZooBinarySortTree {
         }
     }
 
+    public void infixPrint(Node node) {
+        if (node != null) {
+            infixPrint(node.leftNode);
+            System.out.print(node.value + " ");
+            infixPrint(node.rightNode);
+        }
+    }
+
     public void postPrint() {
         if (this.root != null) {
             this.root.postPrint();
@@ -104,6 +112,16 @@ public class ZooBinarySortTree {
     public Integer postSearch(int value) {
         if (this.root != null) {
             Node node = this.root.postSearch(value);
+            return node == null ? null : node.value;
+        } else {
+            System.out.println("空二叉树");
+        }
+        return null;
+    }
+
+    public Integer binarySearch(int value) {
+        if (this.root != null) {
+            Node node = this.root.binarySearch(root, value);
             return node == null ? null : node.value;
         } else {
             System.out.println("空二叉树");
@@ -315,5 +333,18 @@ public class ZooBinarySortTree {
             return null;
         }
 
+        private Node binarySearch(Node node, int value) {
+            while (node != null) {
+                System.out.println("二分查找" + node.value);
+                if (value == node.value) {
+                    return node;
+                } else if (value < node.value) {
+                    node = node.leftNode;
+                } else {
+                    node = node.rightNode;
+                }
+            }
+            return null;
+        }
     }
 }

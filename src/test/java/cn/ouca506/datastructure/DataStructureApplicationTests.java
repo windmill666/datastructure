@@ -557,14 +557,19 @@ class DataStructureApplicationTests {
     }
 
     @Test
-    void testBinarySortThreadTree() {
-//        int[] arr = new int[]{7,3,10,15,5,1,9,2,13,11,12};
-        int[] arr = new int[]{7,3,10,12,5,1,9};
+    void testBinarySortTree() {
+        int[] arr = new int[]{7,3,10,15,5,1,9,2,13,11,12};
+//        int[] arr = new int[]{7,3,10,12,5,1,9};
 
         ZooBinarySortTree tree = new ZooBinarySortTree(arr);
         tree.infixPrint();
-        tree.delete(10);
-        tree.infixPrint();
+//        tree.infixPrint(tree.getRoot());
+//        System.out.println();
+        System.out.println(tree.binarySearch(12));
+//        tree.delete(10);
+//        tree.infixPrint();
+
+
     }
 
     @Test
@@ -574,11 +579,13 @@ class DataStructureApplicationTests {
 //        int[] arr = new int[]{4,3,6,5,8,9};
 //        int[] arr = new int[]{8,4,2,5,9,1};
 
-        int[] arr = new int[]{10,11,7,6,8,9};
+//        int[] arr = new int[]{10,11,7,6,8,9};
+        int[] arr = new int[]{7,3,10,15,5,1,9,2,13,11,12};
         ZooBinaryBalanceTree tree = new ZooBinaryBalanceTree(arr);
-        System.out.println(tree.getRoot().height());
-        System.out.println(tree.getRoot().leftHeight());
-        System.out.println(tree.getRoot().rightHeight());
-        System.out.println(tree.getRoot());
+        tree.binarySearch(12);
+//        System.out.println(tree.getRoot().height());
+//        System.out.println(tree.getRoot().leftHeight());
+//        System.out.println(tree.getRoot().rightHeight());
+//        System.out.println(tree.getRoot());
     }
 }
